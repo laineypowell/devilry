@@ -23,6 +23,7 @@ public final class Devilry implements ModInitializer, EntityComponentInitializer
         DevilryBlocks.register();
         DevilryItems.register();
         DevilryBlockEntities.register();
+        DevilryEntities.register();
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, resourceLocation(MOD_ID), FabricItemGroup.builder()
                         .title(Component.translatable("itemGroup.devilry"))
@@ -32,7 +33,7 @@ public final class Devilry implements ModInitializer, EntityComponentInitializer
                         })
                 .build());
 
-        FluidStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.resolve().getFluidStorage(), DevilryBlockEntities.SACRIFICIAL_BLOCK);
+        FluidStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.getBlockEntity().getFluidStorage(), DevilryBlockEntities.SACRIFICIAL_BLOCK);
     }
 
     @Override

@@ -20,6 +20,9 @@
     ],
     "cardinal-components": [
       "com.laineypowell.devilry.Devilry"
+    ],
+    "client": [
+      "com.laineypowell.devilry.client.DevilryClient"
     ]
   },
   "mixins": [

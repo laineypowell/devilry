@@ -1,5 +1,6 @@
 package com.laineypowell.devilry.block;
 
+import com.google.common.base.Suppliers;
 import com.laineypowell.devilry.DevilryBlockEntities;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -10,6 +11,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+
+import java.util.function.Supplier;
 
 public final class SacrificialBlockEntity extends BlockEntity {
     private final SingleFluidStorage fluidStorage = new SingleFluidStorage() {
@@ -32,6 +35,14 @@ public final class SacrificialBlockEntity extends BlockEntity {
             return false;
         }
     };
+
+    private final Supplier<SacrificialBlockEntity> blockEntity = Suppliers.memoize(() -> {
+        var blockState = getBlockState();
+
+        var axis = blockState.getValue(BlockStateProperties.HORIZONTAL_AXIS);
+        var side = blockState.getValue(SacrificialBlock.SIDE);
+        return side == SacrificialBlock.Side.FRONT ? this : (SacrificialBlockEntity) level.getBlockEntity(SacrificialBlock.getRelative(getBlockPos(), axis, side));
+    });
 
     public SacrificialBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(DevilryBlockEntities.SACRIFICIAL_BLOCK, blockPos, blockState);
@@ -62,11 +73,7 @@ public final class SacrificialBlockEntity extends BlockEntity {
         return fluidStorage;
     }
 
-    public SacrificialBlockEntity resolve() {
-        var blockState = getBlockState();
-
-        var axis = blockState.getValue(BlockStateProperties.HORIZONTAL_AXIS);
-        var side = blockState.getValue(SacrificialBlock.SIDE);
-        return side == SacrificialBlock.Side.FRONT ? this : (SacrificialBlockEntity) level.getBlockEntity(SacrificialBlock.getRelative(getBlockPos(), axis, side));
+    public SacrificialBlockEntity getBlockEntity() {
+        return blockEntity.get();
     }
 }
