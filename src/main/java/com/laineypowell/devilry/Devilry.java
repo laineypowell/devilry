@@ -12,11 +12,15 @@ import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
 import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
+import org.ladysnake.cca.api.v3.world.WorldComponentFactoryRegistry;
+import org.ladysnake.cca.api.v3.world.WorldComponentInitializer;
 
-public final class Devilry implements ModInitializer, EntityComponentInitializer {
+public final class Devilry implements ModInitializer, EntityComponentInitializer, WorldComponentInitializer {
     public static final String MOD_ID = "devilry";
 
     public static final ComponentKey<SacrificingComponent> SACRIFICING = ComponentRegistryV3.INSTANCE.getOrCreate(resourceLocation("sacrificing"), SacrificingComponent.class);
+
+    public static final ComponentKey<CultComponent> CULT = ComponentRegistryV3.INSTANCE.getOrCreate(resourceLocation("cult"), CultComponent.class);
 
     @Override
     public void onInitialize() {
@@ -39,6 +43,11 @@ public final class Devilry implements ModInitializer, EntityComponentInitializer
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
         registry.registerFor(Villager.class, SACRIFICING, villager -> new SacrificingComponent());
+    }
+
+    @Override
+    public void registerWorldComponentFactories(WorldComponentFactoryRegistry registry) {
+        registry.register(CULT, level -> new CultComponent());
     }
 
     public static ResourceLocation resourceLocation(String name) {

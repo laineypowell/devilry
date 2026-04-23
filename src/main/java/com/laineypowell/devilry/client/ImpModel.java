@@ -36,6 +36,8 @@ public final class ImpModel extends HierarchicalModel<Demon> {
 
     @Override
     public void setupAnim(Demon entity, float f, float g, float h, float i, float j) {
+        head.yRot = (float) Math.toRadians(i);
+        head.xRot = (float) Math.toRadians(j);
 
     }
 

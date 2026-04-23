@@ -36,7 +36,8 @@
   },
   "custom": {
     "cardinal-components": [
-      "devilry:sacrificing"
+      "devilry:sacrificing",
+      "devilry:cult"
     ]
   }
 }

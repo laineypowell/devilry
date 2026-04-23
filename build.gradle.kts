@@ -25,6 +25,7 @@ dependencies {
 
     modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-base:6.1.3")
     modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-entity:6.1.3")
+    modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-world:6.1.3")
 
     modImplementation("alexiil.mc.mod:simplepipes-all:0.13.2")
 }
