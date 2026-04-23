@@ -2,12 +2,18 @@ package com.laineypowell.devilry;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.impl.content.registry.FireBlockHooks;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
 import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
@@ -52,5 +58,15 @@ public final class Devilry implements ModInitializer, EntityComponentInitializer
 
     public static ResourceLocation resourceLocation(String name) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
+    }
+
+    public static boolean blockStateCanBurn(BlockState blockState) {
+        return blockState.is(BlockTags.LEAVES) ||
+               blockState.is(BlockTags.LOGS_THAT_BURN) ||
+               blockState.is(BlockTags.PLANKS) ||
+               blockState.is(BlockTags.WOODEN_STAIRS) ||
+               blockState.is(BlockTags.WOODEN_SLABS) ||
+               blockState.is(BlockTags.WOODEN_FENCES) ||
+               blockState.is(BlockTags.WOOL);
     }
 }
