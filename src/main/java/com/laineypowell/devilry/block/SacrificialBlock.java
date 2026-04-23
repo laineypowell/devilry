@@ -1,5 +1,7 @@
 package com.laineypowell.devilry.block;
 
+import com.laineypowell.devilry.DevilryBlockEntities;
+import com.laineypowell.devilry.DevilryBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
@@ -10,24 +12,36 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 import org.jetbrains.annotations.Nullable;
 
-public final class SacrificialBlock extends Block {
+public final class SacrificialBlock extends Block implements EntityBlock {
     private static final EnumProperty<Side> SIDE = EnumProperty.create("side", Side.class);
+
+    public static final BooleanProperty FILLED = BooleanProperty.create("filled");
 
     public SacrificialBlock(Properties properties) {
         super(properties);
-        registerDefaultState(getStateDefinition().any().setValue(BlockStateProperties.HORIZONTAL_AXIS, Direction.Axis.X).setValue(SIDE, Side.FRONT));
+        registerDefaultState(getStateDefinition().any()
+                .setValue(BlockStateProperties.HORIZONTAL_AXIS, Direction.Axis.X)
+                .setValue(BlockStateProperties.OCCUPIED, false)
+                .setValue(SIDE, Side.FRONT)
+                .setValue(FILLED, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(BlockStateProperties.HORIZONTAL_AXIS);
+        builder.add(BlockStateProperties.OCCUPIED);
         builder.add(SIDE);
+        builder.add(FILLED);
     }
 
     @Override
@@ -59,7 +73,29 @@ public final class SacrificialBlock extends Block {
         return blockState;
     }
 
-    public BlockPos getRelative(BlockPos blockPos, Direction.Axis axis, Side side) {
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return blockState.getValue(SIDE) == Side.FRONT ? DevilryBlockEntities.SACRIFICIAL_BLOCK.create(blockPos, blockState) : null;
+    }
+
+    public static <T extends Comparable<T>> void setProperty(Level level, BlockPos blockPos, Property<T> property, T t) {
+        var blockState = level.getBlockState(blockPos);
+        var block = DevilryBlocks.SACRIFICIAL_BLOCK;
+        if (blockState.is(block)) {
+            var axis = blockState.getValue(BlockStateProperties.HORIZONTAL_AXIS);
+            var side = blockState.getValue(SIDE);
+
+            var flag = Block.UPDATE_ALL;
+            level.setBlock(blockPos, blockState.setValue(property, t), flag);
+
+            var front = level.getBlockState(getRelative(blockPos, axis, side));
+            if (front.is(block) && front.getValue(BlockStateProperties.HORIZONTAL_AXIS) == axis) {
+                level.setBlock(blockPos, front.setValue(property, t), flag);
+            }
+        }
+    }
+
+    public static BlockPos getRelative(BlockPos blockPos, Direction.Axis axis, Side side) {
         return blockPos.relative(axis, side == Side.FRONT ? -1 : 1);
     }
 
