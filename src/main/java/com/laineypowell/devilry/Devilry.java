@@ -7,9 +7,16 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.npc.Villager;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
+import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
+import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
 
-public final class Devilry implements ModInitializer {
+public final class Devilry implements ModInitializer, EntityComponentInitializer {
     public static final String MOD_ID = "devilry";
+
+    public static final ComponentKey<SacrificingComponent> SACRIFICING = ComponentRegistryV3.INSTANCE.getOrCreate(resourceLocation("sacrificing"), SacrificingComponent.class);
 
     @Override
     public void onInitialize() {
@@ -25,7 +32,12 @@ public final class Devilry implements ModInitializer {
                         })
                 .build());
 
-        FluidStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.getFluidStorage(), DevilryBlockEntities.SACRIFICIAL_BLOCK);
+        FluidStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.resolve().getFluidStorage(), DevilryBlockEntities.SACRIFICIAL_BLOCK);
+    }
+
+    @Override
+    public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
+        registry.registerFor(Villager.class, SACRIFICING, villager -> new SacrificingComponent());
     }
 
     public static ResourceLocation resourceLocation(String name) {

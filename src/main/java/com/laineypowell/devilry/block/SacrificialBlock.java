@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.state.properties.Property;
 import org.jetbrains.annotations.Nullable;
 
 public final class SacrificialBlock extends Block implements EntityBlock {
-    private static final EnumProperty<Side> SIDE = EnumProperty.create("side", Side.class);
+    public static final EnumProperty<Side> SIDE = EnumProperty.create("side", Side.class);
 
     public static final BooleanProperty FILLED = BooleanProperty.create("filled");
 
@@ -75,23 +75,15 @@ public final class SacrificialBlock extends Block implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return blockState.getValue(SIDE) == Side.FRONT ? DevilryBlockEntities.SACRIFICIAL_BLOCK.create(blockPos, blockState) : null;
+        return DevilryBlockEntities.SACRIFICIAL_BLOCK.create(blockPos, blockState);
     }
 
     public static <T extends Comparable<T>> void setProperty(Level level, BlockPos blockPos, Property<T> property, T t) {
         var blockState = level.getBlockState(blockPos);
-        var block = DevilryBlocks.SACRIFICIAL_BLOCK;
-        if (blockState.is(block)) {
-            var axis = blockState.getValue(BlockStateProperties.HORIZONTAL_AXIS);
-            var side = blockState.getValue(SIDE);
 
-            var flag = Block.UPDATE_ALL;
-            level.setBlock(blockPos, blockState.setValue(property, t), flag);
+        if (blockState.is(DevilryBlocks.SACRIFICIAL_BLOCK)) {
 
-            var front = level.getBlockState(getRelative(blockPos, axis, side));
-            if (front.is(block) && front.getValue(BlockStateProperties.HORIZONTAL_AXIS) == axis) {
-                level.setBlock(blockPos, front.setValue(property, t), flag);
-            }
+            level.setBlock(blockPos, blockState.setValue(property, t), Block.UPDATE_ALL);
         }
     }
 

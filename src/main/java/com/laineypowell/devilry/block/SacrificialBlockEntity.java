@@ -9,6 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public final class SacrificialBlockEntity extends BlockEntity {
     private final SingleFluidStorage fluidStorage = new SingleFluidStorage() {
@@ -59,5 +60,13 @@ public final class SacrificialBlockEntity extends BlockEntity {
 
     public SingleFluidStorage getFluidStorage() {
         return fluidStorage;
+    }
+
+    public SacrificialBlockEntity resolve() {
+        var blockState = getBlockState();
+
+        var axis = blockState.getValue(BlockStateProperties.HORIZONTAL_AXIS);
+        var side = blockState.getValue(SacrificialBlock.SIDE);
+        return side == SacrificialBlock.Side.FRONT ? this : (SacrificialBlockEntity) level.getBlockEntity(SacrificialBlock.getRelative(getBlockPos(), axis, side));
     }
 }

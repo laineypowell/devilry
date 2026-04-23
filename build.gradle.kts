@@ -8,7 +8,8 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    maven("https://maven.ladysnake.org/releases")
+    maven("https://maven.ladysnake.org/releases/")
+    maven("https://maven.alexiil.uk/")
 }
 
 dependencies {
@@ -21,6 +22,11 @@ dependencies {
 
     modImplementation("net.fabricmc:fabric-loader:0.19.2")
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.116.11+1.21.1")
+
+    modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-base:6.1.3")
+    modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-entity:6.1.3")
+
+    modImplementation("alexiil.mc.mod:simplepipes-all:0.13.2")
 }
 
 tasks.test {

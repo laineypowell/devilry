@@ -17,6 +17,9 @@
   "entrypoints": {
     "main": [
       "com.laineypowell.devilry.Devilry"
+    ],
+    "cardinal-components": [
+      "com.laineypowell.devilry.Devilry"
     ]
   },
   "mixins": [
@@ -27,5 +30,10 @@
     "minecraft": "~1.21.1",
     "java": ">=21",
     "fabric-api": "*"
+  },
+  "custom": {
+    "cardinal-components": [
+      "devilry:sacrificing"
+    ]
   }
 }
