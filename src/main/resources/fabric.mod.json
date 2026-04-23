@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "devilry",
+  "version": "${version}",
+  "name": "Devilry",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "laineypowell"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/devilry",
+    "sources": "https://github.com/laineypowell/devilry"
+  },
+  "license": "All Rights Reserved",
+  "icon": "assets/template-mod/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.laineypowell.devilry.Devilry"
+    ]
+  },
+  "mixins": [
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.2",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}

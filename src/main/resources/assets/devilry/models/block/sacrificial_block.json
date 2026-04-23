@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "minecraft:block/stone",
+    "side": "devilry:block/sacrificial_block_side",
+    "top": "devilry:block/sacrificial_block"
+  }
+}
