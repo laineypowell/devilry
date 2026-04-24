@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "devilry:block/devilish_dirt"
+      },
+      {
+        "model": "devilry:block/devilish_dirt",
+        "y": 90
+      },
+      {
+        "model": "devilry:block/devilish_dirt",
+        "y": 180
+      },
+      {
+        "model": "devilry:block/devilish_dirt",
+        "y": 270
+      }
+    ]
+  }
+}

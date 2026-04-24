@@ -1,5 +1,8 @@
 {
   "itemGroup.devilry": "Devilry",
   "block.devilry.sacrificial_block": "Sacrificial Block",
+  "block.devilry.devilish_dirt": "Devilish Dirt",
+  "block.devilry.devilish_mallow": "Devilish Mallow",
+  "block.devilry.devilish_snapdragon": "Devilish Snapdragon",
   "entity.devilry.demon": "Demon"
 }
